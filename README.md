@@ -1,173 +1,199 @@
-# 🚀 Human Behavior Classification Dashboard
+---
+title: SenseBehavior
+emoji: 🚀
+colorFrom: purple
+colorTo: indigo
+sdk: docker
+pinned: false
+license: other
+---
 
-A comprehensive Streamlit dashboard for predicting human behavior using LSTM neural networks on sensor time-series data.
+# 🚀 SenseBehavior - Human Behavior Classification Dashboard
 
-## ⚙️ Features
+A modern Flask-based web application that uses LSTM neural networks to classify human behavior patterns from sensor data. Features a beautiful, responsive interface with real-time analytics and visualization capabilities.
 
-✅ **Load your trained model** - Seamlessly load and use your pre-trained LSTM model  
-✅ **Upload sensor sequence CSV** - Easy file upload for new predictions  
-✅ **Predict behavior with confidence scores** - Get detailed probability distributions  
-✅ **Live plotting of sensor data** - Interactive visualizations of sensor readings  
-✅ **Dataset exploration (EDA)** - Comprehensive data analysis tools  
-✅ **Sample testing from train.csv** - Test model on known samples  
-✅ **Confusion matrix + accuracy** - Model evaluation and performance metrics  
-✅ **Download prediction results** - Export predictions as CSV files  
-✅ **Dark/light theme toggle** - Streamlit built-in theme switching  
+## ✨ Current Features
 
-## 📁 Project Structure
+### 🎨 **Beautiful User Interface**
+- **Modern Design**: Clean, professional interface with gradient backgrounds
+- **Dark/Light Theme Toggle**: Switch between themes with the moon/sun button
+- **Responsive Layout**: Works perfectly on desktop, tablet, and mobile devices
+- **Beautiful File Upload**: Animated gradient button with hover effects and shimmer
+- **Drag & Drop Support**: Intuitive file upload with visual feedback
 
-```
-project-folder/
-│
-├── app.py                # Main Streamlit dashboard application
-├── lstm_model.pth        # Your trained PyTorch model
-├── train.csv             # Training data (for EDA/demo)
-├── requirements.txt      # Python dependencies
-└── README.md            # This file
-```
+### 📁 **File Upload & Processing**
+- **CSV File Support**: Upload sensor data in CSV format
+- **Drag & Drop Interface**: Simply drag files onto the upload area
+- **File Validation**: Automatic validation of file format and structure
+- **Real-time Feedback**: Loading indicators and progress updates
+- **File Management**: Clear file selection and easy file removal
+
+### 🧠 **Behavior Classification**
+- **LSTM Neural Network**: Advanced deep learning model for pattern recognition
+- **Four Behavior Types**: Walking, Sitting, Driving, Standing
+- **Confidence Scores**: Detailed probability scores for each behavior
+- **Real-time Prediction**: Instant results with confidence analysis
+- **Demo Mode**: Works without PyTorch for testing purposes
+
+### 📊 **Data Analytics & Visualization**
+- **Data Overview**: Shape, columns, and basic statistics
+- **Interactive Plots**: Matplotlib-generated visualizations
+- **Data Preview**: Table view of uploaded data
+- **Sensor Analysis**: Multi-axis sensor data visualization
+- **Statistical Insights**: Comprehensive data analysis
+
+### 🔍 **Model Evaluation**
+- **Confusion Matrix**: Visual representation of model performance
+- **Classification Report**: Precision, Recall, F1-Score metrics
+- **Overall Accuracy**: Model performance summary
+- **Sample Testing**: Test model on random training samples
+- **Performance Analytics**: Detailed evaluation metrics
+
+### ⚙️ **Configuration & Settings**
+- **Model Parameters**: Adjustable input size, hidden size, and classes
+- **Real-time Updates**: Configuration changes applied immediately
+- **System Information**: PyTorch availability and training data status
+- **Model Architecture**: View and modify LSTM model settings
+
+### 📤 **Export & Download**
+- **Prediction Results**: Download CSV files with prediction data
+- **Confidence Analysis**: Export confidence threshold analysis
+- **Model Metrics**: Download evaluation results and reports
+- **Data Export**: Comprehensive data export capabilities
+
+## 🎯 Supported Behaviors
+
+The application can classify these human behaviors with high accuracy:
+
+- **🚶‍♂️ Walking** - Movement patterns while walking
+- **🪑 Sitting** - Stationary sitting behavior  
+- **🚗 Driving** - Vehicle operation patterns
+- **🧍‍♂️ Standing** - Upright stationary behavior
+
+## 🚀 How to Use
+
+### 1. **Access the Dashboard**
+- Visit the application URL
+- The interface loads with a beautiful gradient design
+
+### 2. **Upload Your Data**
+- **Option A**: Click the beautiful "Choose CSV File" button
+- **Option B**: Drag and drop a CSV file onto the upload area
+- Supported format: CSV files with sensor data
+
+### 3. **View Results**
+- **Data Overview**: See your data shape and column count
+- **Visualizations**: Interactive plots of your sensor data
+- **Predictions**: Behavior classification with confidence scores
+- **Model Info**: Details about the LSTM model used
+
+### 4. **Explore Features**
+- **Model Evaluation**: Test the model on training data
+- **Configuration**: Adjust model parameters
+- **Export Results**: Download predictions and reports
+
+## 📊 Data Format Requirements
+
+Your CSV file should contain:
+- **Numeric columns**: Sensor readings (accelerometer, gyroscope, etc.)
+- **Time series data**: Sequential sensor measurements
+- **332 features**: The model expects 332 input features
+- **Optional columns**: sequence_id and behavior for evaluation
+
+## 🛠️ Technical Architecture
+
+- **Frontend**: HTML5, CSS3, JavaScript with Bootstrap 5
+- **Backend**: Flask web framework with RESTful API
+- **ML Model**: LSTM (Long Short-Term Memory) neural network
+- **Visualization**: Matplotlib and Seaborn for interactive plots
+- **Data Processing**: Pandas and NumPy for data manipulation
+- **Evaluation**: Scikit-learn for metrics and analysis
+
+## 🔧 API Endpoints
+
+- `GET /` - Main dashboard interface
+- `POST /upload` - Upload and process CSV files
+- `GET /model_info` - Get model information
+- `GET /evaluate` - Evaluate model performance
+- `POST /test_sample` - Test model on random sample
+- `POST /confidence_analysis` - Analyze confidence thresholds
+- `POST /download_results` - Download prediction results
+- `GET/POST /config` - Get/update model configuration
+- `GET /health` - Health check endpoint
+
+## 🎓 Academic Project
+
+This project was developed for **CIS6005 — Computational Intelligence Project (2025)**.
+
+## 📋 System Requirements
+
+- **Python**: 3.11 or higher
+- **Flask**: 2.3.3
+- **PyTorch**: 2.0.1 (optional - demo mode available)
+- **Pandas**: 2.0.3
+- **Scikit-learn**: 1.3.0
+- **NumPy**: 1.24.3
+- **Matplotlib**: 3.7.2
+- **Seaborn**: 0.12.2
 
 ## 🚀 Quick Start
 
-### 1. Install Dependencies
-
+### Local Development
 ```bash
+# Clone the repository
+git clone <repository-url>
+cd SenseBehavior
+
+# Install dependencies
 pip install -r requirements.txt
+
+# Run the application
+python app.py
+
+# Access at http://localhost:7860
 ```
 
-Or install manually:
+### Docker Deployment
 ```bash
-pip install streamlit torch pandas numpy scikit-learn matplotlib seaborn
+# Build and run with Docker
+docker build -t sensebehavior .
+docker run -p 7860:7860 sensebehavior
 ```
 
-### 2. Run the Dashboard
+## 🎨 Interface Features
 
-```bash
-streamlit run app.py
-```
+### **Upload & Predict Tab**
+- Beautiful file upload interface
+- Real-time data processing
+- Interactive visualizations
+- Behavior predictions with confidence scores
 
-The dashboard will open in your browser at `http://localhost:8501`
+### **Model Evaluation Tab**
+- Confusion matrix visualization
+- Classification report with metrics
+- Overall accuracy display
+- Sample testing functionality
 
-## 📊 Usage Guide
+### **Configuration Tab**
+- Model parameter adjustment
+- System information display
+- Real-time configuration updates
+- Training data status
 
-### Upload and Predict
-1. **Upload CSV File**: Use the file uploader to upload a sensor sequence CSV
-2. **View Data**: Explore the uploaded data with interactive visualizations
-3. **Get Predictions**: See behavior predictions with confidence scores
-4. **Download Results**: Export prediction results as CSV
+## 📝 License
 
-### Test on Training Data
-1. **Enable Testing**: Check the "Load and test on sample from train.csv" option
-2. **Select Sample**: Use the slider to choose different samples
-3. **Compare Results**: See true vs predicted labels with accuracy indicators
-
-### Model Evaluation
-1. **Show Confusion Matrix**: Enable to see model performance metrics
-2. **View Accuracy**: See overall accuracy and per-class performance
-3. **Classification Report**: Detailed precision, recall, and F1 scores
-
-### Live Data Visualization
-1. **Select Sensors**: Choose which sensor data to plot
-2. **Interactive Plots**: View real-time sensor data visualizations
-3. **Multi-sensor View**: Compare multiple sensors simultaneously
-
-## 🔧 Configuration
-
-### Model Parameters
-The dashboard is configured for:
-- **Input Size**: 332 features
-- **Hidden Size**: 128 LSTM units
-- **Classes**: walking, sitting, driving
-
-To modify these parameters, edit the `LSTMClassifier` class in `app.py`:
-
-```python
-model = LSTMClassifier(input_size=332, hidden_size=128, num_classes=3)
-```
-
-### Label Classes
-Update the label encoder classes in `app.py`:
-
-```python
-label_encoder.classes_ = np.array(['walking', 'sitting', 'driving'])
-```
-
-## 📈 Data Format
-
-### Input CSV Format
-Your CSV file should contain:
-- **Numeric columns**: Sensor data (accelerometer, gyroscope, etc.)
-- **Time series**: Each row represents a time step
-- **Consistent features**: Same number of features as training data
-
-### Example CSV Structure
-```csv
-acc_x,acc_y,acc_z,gyro_x,gyro_y,gyro_z,...
-0.123,0.456,0.789,0.012,0.345,0.678,...
-0.234,0.567,0.890,0.123,0.456,0.789,...
-...
-```
-
-## 🛠️ Troubleshooting
-
-### Common Issues
-
-**Model Loading Error**
-- Ensure `lstm_model.pth` is in the same directory as `app.py`
-- Check that the model architecture matches the `LSTMClassifier` class
-
-**Missing Dependencies**
-- Run `pip install -r requirements.txt`
-- Ensure all packages are compatible versions
-
-**CSV Upload Issues**
-- Verify CSV format matches expected structure
-- Check for missing or non-numeric columns
-
-**Memory Issues**
-- Reduce batch size for large datasets
-- Close other applications to free memory
-
-## 📝 Development
-
-### Adding New Features
-1. **New Visualizations**: Add matplotlib/seaborn plots
-2. **Additional Metrics**: Extend evaluation section
-3. **Custom Preprocessing**: Modify data processing pipeline
-
-### Customization
-- **Styling**: Modify Streamlit components and CSS
-- **Layout**: Reorganize sections and widgets
-- **Functionality**: Add new prediction methods or data sources
-
-## 📚 Dependencies
-
-- **Streamlit**: Web application framework
-- **PyTorch**: Deep learning framework
-- **Pandas**: Data manipulation and analysis
-- **NumPy**: Numerical computing
-- **Scikit-learn**: Machine learning utilities
-- **Matplotlib**: Plotting library
-- **Seaborn**: Statistical data visualization
+This project is licensed under the MIT License.
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
+## 📞 Support
 
-This project is developed for CIS6005 — Computational Intelligence Project (2025)
-
-## 🆘 Support
-
-For issues and questions:
-1. Check the troubleshooting section
-2. Review the documentation
-3. Open an issue with detailed error information
+If you encounter any issues or have questions, please open an issue in the repository.
 
 ---
 
-**Happy Classifying! 🎯** 
+**Developed with ❤️ for Human Behavior Analysis**
+
+*Built for CIS6005 — Computational Intelligence Project (2025)*
