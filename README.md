@@ -8,18 +8,18 @@ pinned: false
 license: other
 ---
 
-# 🚀 SenseBehavior - Human Behavior Classification Dashboard
+# 📊 Behavior Analytics Dashboard
 
-A modern Flask-based web application that uses LSTM neural networks to classify human behavior patterns from sensor data. Features a beautiful, responsive interface with real-time analytics and visualization capabilities.
+A professional Flask-based web application that uses LSTM neural networks to classify human behavior patterns from sensor data. Features a classic dashboard interface with comprehensive analytics and real-time monitoring capabilities.
 
 ## ✨ Current Features
 
-### 🎨 **Beautiful User Interface**
-- **Modern Design**: Clean, professional interface with gradient backgrounds
-- **Dark/Light Theme Toggle**: Switch between themes with the moon/sun button
+### 🎨 **Professional Dashboard Interface**
+- **Classic Design**: Dark theme with blue accents for professional appearance
+- **Sidebar Navigation**: Easy access to all dashboard sections
 - **Responsive Layout**: Works perfectly on desktop, tablet, and mobile devices
-- **Beautiful File Upload**: Animated gradient button with hover effects and shimmer
-- **Drag & Drop Support**: Intuitive file upload with visual feedback
+- **Modern File Upload**: Clean drag & drop interface with visual feedback
+- **Real-time Monitoring**: Live statistics and system status indicators
 
 ### 📁 **File Upload & Processing**
 - **CSV File Support**: Upload sensor data in CSV format
@@ -102,12 +102,13 @@ Your CSV file should contain:
 
 ## 🛠️ Technical Architecture
 
-- **Frontend**: HTML5, CSS3, JavaScript with Bootstrap 5
+- **Frontend**: HTML5, CSS3, JavaScript with Bootstrap 5.3
 - **Backend**: Flask web framework with RESTful API
 - **ML Model**: LSTM (Long Short-Term Memory) neural network
 - **Visualization**: Matplotlib and Seaborn for interactive plots
 - **Data Processing**: Pandas and NumPy for data manipulation
 - **Evaluation**: Scikit-learn for metrics and analysis
+- **Design**: Modern CSS Grid and Flexbox for responsive layout
 
 ## 🔧 API Endpoints
 
@@ -167,21 +168,33 @@ python app.py
 # The application will be available at http://localhost:7860
 ```
 
-## 🎨 Interface Features
+## 🎨 Dashboard Features
 
-### **Upload & Predict Tab**
-- Beautiful file upload interface
+### **Dashboard Overview**
+- Real-time statistics and metrics
+- System status monitoring
+- Recent activity tracking
+- Performance indicators
+
+### **Data Upload Section**
+- Professional file upload interface
 - Real-time data processing
 - Interactive visualizations
 - Behavior predictions with confidence scores
 
-### **Model Evaluation Tab**
+### **Analytics Section**
+- Comprehensive data analysis
+- Behavior distribution charts
+- Time series analysis
+- Statistical insights
+
+### **Model Evaluation Section**
 - Confusion matrix visualization
 - Classification report with metrics
 - Overall accuracy display
 - Sample testing functionality
 
-### **Configuration Tab**
+### **Settings Section**
 - Model parameter adjustment
 - System information display
 - Real-time configuration updates

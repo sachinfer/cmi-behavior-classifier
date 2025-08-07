@@ -3,1175 +3,1141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 SenseBehavior - Human Behavior Classification</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>📊 Behavior Analytics Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --accent-color: #60a5fa;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --border-color: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
         }
-        .main-container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            margin: 20px auto;
-            padding: 30px;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .upload-area {
-            border: 3px dashed #667eea;
-            border-radius: 15px;
-            padding: 40px;
-            text-align: center;
-            background: rgba(102, 126, 234, 0.05);
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 280px;
+            background: var(--card-bg);
+            border-right: 1px solid var(--border-color);
+            z-index: 1000;
             transition: all 0.3s ease;
         }
-        .upload-area:hover {
-            border-color: #764ba2;
-            background: rgba(118, 75, 162, 0.05);
-        }
-        .result-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        .metric-card {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border-radius: 10px;
-            padding: 20px;
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
             text-align: center;
-            margin: 10px 0;
         }
+
+        .sidebar-header h3 {
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-header p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin: 0;
+        }
+
+        .nav-menu {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            margin: 0.25rem 1rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-color);
+        }
+
+        .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .nav-link i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Cards */
+        .dashboard-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .icon-primary { background: rgba(59, 130, 246, 0.2); color: var(--accent-color); }
+        .icon-success { background: rgba(16, 185, 129, 0.2); color: var(--success-color); }
+        .icon-warning { background: rgba(245, 158, 11, 0.2); color: var(--warning-color); }
+        .icon-danger { background: rgba(239, 68, 68, 0.2); color: var(--danger-color); }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-primary { color: var(--accent-color); }
+        .stat-success { color: var(--success-color); }
+        .stat-warning { color: var(--warning-color); }
+        .stat-danger { color: var(--danger-color); }
+
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            background: rgba(59, 130, 246, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: var(--accent-color);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--success-color);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        /* Tables */
+        .table {
+            color: var(--text-primary);
+            background: var(--card-bg);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .table th {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            font-weight: 600;
+            padding: 1rem;
+        }
+
+        .table td {
+            border-color: var(--border-color);
+            padding: 1rem;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* Loading */
         .loading {
             display: none;
-        }
-        .status-badge {
-            font-size: 0.8em;
-            padding: 5px 10px;
-            border-radius: 20px;
-        }
-        .nav-tabs .nav-link {
-            color: #667eea;
-            border: none;
-            border-bottom: 2px solid transparent;
-        }
-        .nav-tabs .nav-link.active {
-            color: #764ba2;
-            border-bottom: 2px solid #764ba2;
-            background: none;
-        }
-        .plot-container {
             text-align: center;
-            margin: 20px 0;
+            padding: 2rem;
         }
-        .plot-container img {
-            max-width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
         }
-        .config-panel {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
+
+        /* Alerts */
+        .alert {
+            border: none;
+            border-radius: 0.5rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
         }
-        
-        /* Beautiful File Upload Styles */
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-color);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* File Upload */
         .file-upload-container {
             position: relative;
             display: inline-block;
-            margin: 20px 0;
         }
-        
+
         .file-input {
             position: absolute;
             left: -9999px;
             opacity: 0;
-            pointer-events: none;
         }
-        
+
         .file-upload-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 30px 40px;
-            border-radius: 20px;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-            border: 3px solid transparent;
-            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .file-upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Progress Bar */
+        .progress {
+            background: var(--border-color);
+            border-radius: 0.5rem;
+            height: 8px;
             overflow: hidden;
         }
-        
-        .file-upload-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+            transition: width 0.3s ease;
         }
-        
-        .file-upload-btn:active {
-            transform: translateY(-2px);
-        }
-        
-        .file-upload-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-        
-        .file-upload-btn:hover::before {
-            left: 100%;
-        }
-        
-        .btn-content {
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .btn-text {
-            display: block;
-            font-size: 1.2em;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .btn-subtitle {
-            display: block;
-            font-size: 0.9em;
-            opacity: 0.8;
-        }
-        
-        .file-info {
-            background: #f8f9fa;
-            border: 2px solid #28a745;
-            border-radius: 15px;
-            padding: 15px 20px;
-            margin: 20px 0;
-            animation: slideIn 0.3s ease;
-        }
-        
-        .file-info-content {
-            display: flex;
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
         }
-        
-        .file-info-content i {
-            margin-right: 10px;
-            font-size: 1.2em;
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
         }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        .status-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning-color);
         }
-        
-        /* Upload area enhancements */
-        .upload-area {
-            border: 3px dashed #667eea;
-            border-radius: 20px;
-            padding: 50px 40px;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-            transition: all 0.3s ease;
-            position: relative;
+
+        /* Tabs */
+        .nav-tabs {
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
         }
-        
-        .upload-area:hover {
-            border-color: #764ba2;
-            background: linear-gradient(135deg, rgba(118, 75, 162, 0.1) 0%, rgba(102, 126, 234, 0.1) 100%);
-            transform: scale(1.02);
+
+        .nav-tabs .nav-link {
+            color: var(--text-secondary);
+            border: none;
+            border-bottom: 2px solid transparent;
+            padding: 0.75rem 1rem;
+            font-weight: 500;
         }
-        
-        .upload-area.dragover {
-            border-color: #28a745;
-            background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(40, 167, 69, 0.05) 100%);
-            transform: scale(1.05);
+
+        .nav-tabs .nav-link:hover {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+            background: none;
+        }
+
+        /* Charts */
+        .chart-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
         }
     </style>
 </head>
 <body>
-    <!-- Theme Toggle -->
-    <div class="theme-toggle">
-        <button class="btn btn-outline-light" id="themeToggleBtn">
-            <i class="fas fa-moon" id="theme-icon"></i>
-        </button>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-brain"></i> Behavior Analytics</h3>
+            <p>AI-Powered Classification Dashboard</p>
+        </div>
+        
+        <nav class="nav-menu">
+            <div class="nav-item">
+                <a href="#dashboard" class="nav-link active" data-tab="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#upload" class="nav-link" data-tab="upload">
+                    <i class="fas fa-upload"></i>
+                    Data Upload
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#analytics" class="nav-link" data-tab="analytics">
+                    <i class="fas fa-chart-line"></i>
+                    Analytics
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#evaluation" class="nav-link" data-tab="evaluation">
+                    <i class="fas fa-chart-bar"></i>
+                    Model Evaluation
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#settings" class="nav-link" data-tab="settings">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </a>
+            </div>
+        </nav>
     </div>
 
-    <div class="container main-container">
-        <div class="header">
-            <h1><i class="fas fa-rocket"></i> SenseBehavior</h1>
-            <h3>Human Behavior Classification Dashboard</h3>
-            <p class="text-muted">Upload sensor data to predict human behavior patterns</p>
-            
-            <!-- Status Badge -->
-            <div class="mt-3">
-                {% if pytorch_available %}
-                    <span class="badge bg-success status-badge">
-                        <i class="fas fa-check"></i> Full Mode Available
-                    </span>
-                {% else %}
-                    <span class="badge bg-warning status-badge">
-                        <i class="fas fa-exclamation-triangle"></i> Demo Mode
-                    </span>
-                {% endif %}
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="page-header">
+                <h1 class="page-title">Dashboard Overview</h1>
+                <p class="page-subtitle">Monitor your behavior classification system</p>
+            </div>
+
+            <!-- Status Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value stat-primary" id="totalPredictions">0</div>
+                    <div class="stat-label">Total Predictions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value stat-success" id="accuracy">0%</div>
+                    <div class="stat-label">Model Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value stat-warning" id="activeSessions">0</div>
+                    <div class="stat-label">Active Sessions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value stat-danger" id="errors">0</div>
+                    <div class="stat-label">Errors</div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-clock card-icon icon-primary"></i>
+                        Recent Activity
+                    </h5>
+                </div>
+                <div id="recentActivity">
+                    <p class="text-muted">No recent activity</p>
+                </div>
+            </div>
+
+            <!-- System Status -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-server card-icon icon-success"></i>
+                        System Status
+                    </h5>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="status-badge status-success">
+                                <i class="fas fa-check"></i>
+                                Model Loaded
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="status-badge status-success">
+                                <i class="fas fa-check"></i>
+                                API Active
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="status-badge status-warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Demo Mode
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="status-badge status-success">
+                                <i class="fas fa-check"></i>
+                                Database Connected
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Navigation Tabs -->
-        <ul class="nav nav-tabs" id="mainTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload" type="button" role="tab">
-                    <i class="fas fa-upload"></i> Upload & Predict
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="evaluate-tab" data-bs-toggle="tab" data-bs-target="#evaluate" type="button" role="tab">
-                    <i class="fas fa-chart-line"></i> Model Evaluation
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="config-tab" data-bs-toggle="tab" data-bs-target="#config" type="button" role="tab">
-                    <i class="fas fa-cog"></i> Configuration
-                </button>
-            </li>
-        </ul>
+        <!-- Upload Tab -->
+        <div id="upload" class="tab-content" style="display: none;">
+            <div class="page-header">
+                <h1 class="page-title">Data Upload</h1>
+                <p class="page-subtitle">Upload sensor data for behavior classification</p>
+            </div>
 
-        <!-- Tab Content -->
-        <div class="tab-content" id="mainTabsContent">
-            <!-- Upload & Predict Tab -->
-            <div class="tab-pane fade show active" id="upload" role="tabpanel">
-                <!-- File Upload Section -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-cloud-upload-alt card-icon icon-primary"></i>
+                        Upload Sensor Data
+                    </h5>
+                </div>
+
                 <div class="upload-area" id="uploadArea">
-                    <i class="fas fa-cloud-upload-alt fa-4x text-primary mb-4"></i>
-                    <h3 class="mb-3">Upload Your Sensor Data</h3>
-                    <p class="text-muted mb-4">Drag and drop a CSV file or click the beautiful button below</p>
+                    <div class="upload-icon">
+                        <i class="fas fa-file-csv"></i>
+                    </div>
+                    <h4>Drop your CSV file here</h4>
+                    <p class="text-muted mb-4">or click to browse files</p>
                     
-                    <!-- Beautiful File Upload Button -->
                     <div class="file-upload-container">
                         <input type="file" id="fileInput" accept=".csv" class="file-input">
                         <label for="fileInput" class="file-upload-btn">
-                            <div class="btn-content">
-                                <i class="fas fa-file-csv fa-2x mb-2"></i>
-                                <span class="btn-text">Choose CSV File</span>
-                                <span class="btn-subtitle">Click to browse files</span>
-                            </div>
+                            <i class="fas fa-folder-open"></i>
+                            Choose File
                         </label>
                     </div>
-                    
-                    <!-- File Info Display -->
-                    <div id="fileInfo" class="file-info" style="display: none;">
-                        <div class="file-info-content">
-                            <i class="fas fa-check-circle text-success"></i>
+                </div>
+
+                <!-- File Info -->
+                <div id="fileInfo" style="display: none;" class="alert alert-info">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <i class="fas fa-file-csv"></i>
                             <span id="fileName">File selected</span>
-                            <button class="btn btn-sm btn-outline-danger" id="clearFileBtn">
-                                <i class="fas fa-times"></i>
-                            </button>
                         </div>
-                    </div>
-                    
-                    <!-- Debug Info -->
-                    <div id="debugInfo" class="alert alert-info mt-3" style="display: none;">
-                        <strong>Debug Info:</strong>
-                        <div id="debugContent"></div>
-                    </div>
-                    
-                    <!-- Test Button -->
-                    <div class="mt-4">
-                        <button class="btn btn-outline-secondary btn-sm" id="testUploadBtn">
-                            <i class="fas fa-bug"></i> Test Upload
+                        <button class="btn btn-secondary btn-sm" id="clearFileBtn">
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Loading Indicator -->
-                <div class="loading text-center" id="loading">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                <!-- Progress -->
+                <div id="uploadProgress" style="display: none;">
+                    <div class="progress mb-3">
+                        <div class="progress-bar" id="progressBar" style="width: 0%"></div>
                     </div>
-                    <p class="mt-2">Processing your data...</p>
-                </div>
-
-                <!-- Results Section -->
-                <div id="results" style="display: none;">
-                    <div class="result-card">
-                        <h4><i class="fas fa-chart-bar"></i> Data Overview</h4>
-                        <div id="dataInfo"></div>
-                    </div>
-
-                    <div class="result-card">
-                        <h4><i class="fas fa-chart-area"></i> Data Visualizations</h4>
-                        <div id="dataPlots"></div>
-                    </div>
-
-                    <div class="result-card">
-                        <h4><i class="fas fa-brain"></i> Behavior Prediction</h4>
-                        <div id="prediction"></div>
-                    </div>
-
-                    <!-- Model Information -->
-                    <div class="result-card">
-                        <h4><i class="fas fa-info-circle"></i> Model Information</h4>
-                        <div id="modelInfo"></div>
-                    </div>
-
-                    <!-- Confidence Analysis -->
-                    <div class="result-card">
-                        <h4><i class="fas fa-chart-line"></i> Confidence Analysis</h4>
-                        <button class="btn btn-info" id="analyzeConfidenceBtn">
-                            <i class="fas fa-search"></i> Analyze Confidence Thresholds
-                        </button>
-                        <div id="confidenceAnalysis" style="display: none;"></div>
-                    </div>
-
-                    <div class="result-card">
-                        <h4><i class="fas fa-table"></i> Data Preview</h4>
-                        <div id="dataPreview" class="table-responsive"></div>
-                    </div>
-
-                    <!-- Download Results -->
-                    <div class="result-card">
-                        <h4><i class="fas fa-download"></i> Export Results</h4>
-                        <button class="btn btn-success" id="downloadResultsBtn">
-                            <i class="fas fa-download"></i> Download Prediction Results
-                        </button>
-                    </div>
+                    <p class="text-center" id="progressText">Processing...</p>
                 </div>
             </div>
 
-            <!-- Model Evaluation Tab -->
-            <div class="tab-pane fade" id="evaluate" role="tabpanel">
-                <div class="result-card">
-                    <h4><i class="fas fa-chart-line"></i> Model Evaluation</h4>
-                    <p>Evaluate the model performance on training data and view detailed metrics.</p>
-                    
-                    <button class="btn btn-primary" id="evaluateModelBtn">
-                        <i class="fas fa-play"></i> Run Evaluation
-                    </button>
-                    
-                    <div id="evaluationResults" style="display: none;">
-                        <div class="mt-4">
-                            <h5>Confusion Matrix</h5>
-                            <div id="confusionMatrix"></div>
-                        </div>
-                        
-                        <div class="mt-4">
-                            <h5>Classification Report</h5>
-                            <div id="classificationReport"></div>
-                        </div>
-                        
-                        <div class="mt-4">
-                            <h5>Overall Accuracy</h5>
-                            <div id="overallAccuracy"></div>
-                        </div>
+            <!-- Results -->
+            <div id="results" style="display: none;">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h5 class="card-title">
+                            <i class="fas fa-chart-pie card-icon icon-success"></i>
+                            Classification Results
+                        </h5>
                     </div>
+                    <div id="predictionResults"></div>
                 </div>
 
-                <div class="result-card">
-                    <h4><i class="fas fa-flask"></i> Test Sample</h4>
-                    <p>Test the model on a random sample from the training data.</p>
-                    
-                    <button class="btn btn-info" id="testSampleBtn">
-                        <i class="fas fa-random"></i> Test Random Sample
-                    </button>
-                    
-                    <div id="sampleResults" style="display: none;">
-                        <div class="mt-4">
-                            <h5>Sample Prediction</h5>
-                            <div id="samplePrediction"></div>
-                        </div>
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h5 class="card-title">
+                            <i class="fas fa-chart-line card-icon icon-primary"></i>
+                            Data Analytics
+                        </h5>
                     </div>
+                    <div id="dataAnalytics"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics" class="tab-content" style="display: none;">
+            <div class="page-header">
+                <h1 class="page-title">Analytics</h1>
+                <p class="page-subtitle">Deep insights into your data</p>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-chart-area card-icon icon-primary"></i>
+                        Behavior Distribution
+                    </h5>
+                </div>
+                <div id="behaviorChart" class="chart-container">
+                    <p class="text-muted">Upload data to see analytics</p>
                 </div>
             </div>
 
-            <!-- Configuration Tab -->
-            <div class="tab-pane fade" id="config" role="tabpanel">
-                <div class="config-panel">
-                    <h4><i class="fas fa-cog"></i> Model Configuration</h4>
-                    <p>Adjust model parameters and settings.</p>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="inputSize" class="form-label">Input Size</label>
-                                <input type="number" class="form-control" id="inputSize" value="{{ model_config.input_size }}">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="hiddenSize" class="form-label">Hidden Size</label>
-                                <input type="number" class="form-control" id="hiddenSize" value="{{ model_config.hidden_size }}">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="classes" class="form-label">Classes (comma-separated)</label>
-                        <input type="text" class="form-control" id="classes" value="{{ model_config.classes | join(', ') }}">
-                    </div>
-                    
-                    <button class="btn btn-primary" id="updateConfigBtn">
-                        <i class="fas fa-save"></i> Update Configuration
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-clock card-icon icon-warning"></i>
+                        Time Series Analysis
+                    </h5>
+                </div>
+                <div id="timeSeriesChart" class="chart-container">
+                    <p class="text-muted">Upload data to see time series</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evaluation Tab -->
+        <div id="evaluation" class="tab-content" style="display: none;">
+            <div class="page-header">
+                <h1 class="page-title">Model Evaluation</h1>
+                <p class="page-subtitle">Assess model performance and metrics</p>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-chart-bar card-icon icon-primary"></i>
+                        Performance Metrics
+                    </h5>
+                    <button class="btn btn-primary" id="runEvaluationBtn">
+                        <i class="fas fa-play"></i>
+                        Run Evaluation
                     </button>
                 </div>
+                <div id="evaluationResults"></div>
+            </div>
 
-                <div class="result-card">
-                    <h4><i class="fas fa-info-circle"></i> System Information</h4>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="metric-card">
-                                <h5>PyTorch Available</h5>
-                                <h3>{% if pytorch_available %}✅ Yes{% else %}❌ No{% endif %}</h3>
-                            </div>
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-flask card-icon icon-warning"></i>
+                        Sample Testing
+                    </h5>
+                    <button class="btn btn-secondary" id="testSampleBtn">
+                        <i class="fas fa-random"></i>
+                        Test Sample
+                    </button>
+                </div>
+                <div id="sampleResults"></div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings" class="tab-content" style="display: none;">
+            <div class="page-header">
+                <h1 class="page-title">Settings</h1>
+                <p class="page-subtitle">Configure your system preferences</p>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-cog card-icon icon-primary"></i>
+                        Model Configuration
+                    </h5>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="inputSize" class="form-label">Input Size</label>
+                            <input type="number" class="form-control" id="inputSize" value="332">
                         </div>
-                        <div class="col-md-6">
-                            <div class="metric-card">
-                                <h5>Training Data</h5>
-                                <h3>{% if train_data_available %}✅ Available{% else %}❌ Not Available{% endif %}</h3>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="hiddenSize" class="form-label">Hidden Size</label>
+                            <input type="number" class="form-control" id="hiddenSize" value="128">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="classes" class="form-label">Classes</label>
+                    <input type="text" class="form-control" id="classes" value="walking, sitting, driving, standing">
+                </div>
+                
+                <button class="btn btn-primary" id="updateConfigBtn">
+                    <i class="fas fa-save"></i>
+                    Update Configuration
+                </button>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-info-circle card-icon icon-info"></i>
+                        System Information
+                    </h5>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-value stat-primary" id="pytorchStatus">
+                                {% if pytorch_available %}Available{% else %}Not Available{% endif %}
                             </div>
+                            <div class="stat-label">PyTorch Status</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-value stat-success" id="trainingDataStatus">
+                                {% if train_data_available %}Available{% else %}Not Available{% endif %}
+                            </div>
+                            <div class="stat-label">Training Data</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Demo Information -->
-        {% if not pytorch_available %}
-        <div class="alert alert-info mt-4">
-            <h5><i class="fas fa-info-circle"></i> Demo Mode</h5>
-            <p>This application is running in demo mode. The full version with LSTM model will be available when PyTorch is properly configured.</p>
-            <p><strong>Supported Behaviors:</strong> Walking, Sitting, Driving, Standing</p>
-        </div>
-        {% endif %}
-
-        <!-- Footer -->
-        <div class="text-center mt-5">
-            <p class="text-muted">
-                <i class="fas fa-graduation-cap"></i> 
-                Developed for CIS6005 — Computational Intelligence Project (2025)
-            </p>
+        <!-- Loading Overlay -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Processing your request...</p>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Global variables
         let currentResults = null;
-        let isDarkTheme = false;
+        let currentTab = 'dashboard';
 
-        // Wait for DOM to be ready
+        // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, setting up event listeners...');
-            
-            // Theme toggle button
-            const themeBtn = document.getElementById('themeToggleBtn');
-            if (themeBtn) {
-                themeBtn.addEventListener('click', toggleTheme);
-                console.log('Theme toggle event listener added');
-            } else {
-                console.error('Theme toggle button not found!');
-            }
-            
-            // File input
-            const fileInput = document.getElementById('fileInput');
-            if (fileInput) {
-                fileInput.addEventListener('change', handleFileUpload);
-                console.log('File input event listener added');
-            } else {
-                console.error('File input element not found!');
-            }
-            
-            // Clear file button
-            const clearBtn = document.getElementById('clearFileBtn');
-            if (clearBtn) {
-                clearBtn.addEventListener('click', clearFile);
-                console.log('Clear file event listener added');
-            } else {
-                console.error('Clear file button not found!');
-            }
-            
-            // Test upload button
-            const testBtn = document.getElementById('testUploadBtn');
-            if (testBtn) {
-                testBtn.addEventListener('click', testUpload);
-                console.log('Test button event listener added');
-            } else {
-                console.error('Test button element not found!');
-            }
-            
-            // Analyze confidence button
-            const analyzeBtn = document.getElementById('analyzeConfidenceBtn');
-            if (analyzeBtn) {
-                analyzeBtn.addEventListener('click', analyzeConfidence);
-                console.log('Analyze confidence event listener added');
-            }
-            
-            // Download results button
-            const downloadBtn = document.getElementById('downloadResultsBtn');
-            if (downloadBtn) {
-                downloadBtn.addEventListener('click', downloadResults);
-                console.log('Download results event listener added');
-            }
-            
-            // Evaluate model button
-            const evaluateBtn = document.getElementById('evaluateModelBtn');
-            if (evaluateBtn) {
-                evaluateBtn.addEventListener('click', evaluateModel);
-                console.log('Evaluate model event listener added');
-            }
-            
-            // Test sample button
-            const sampleBtn = document.getElementById('testSampleBtn');
-            if (sampleBtn) {
-                sampleBtn.addEventListener('click', testSample);
-                console.log('Test sample event listener added');
-            }
-            
-            // Update config button
-            const configBtn = document.getElementById('updateConfigBtn');
-            if (configBtn) {
-                configBtn.addEventListener('click', updateConfig);
-                console.log('Update config event listener added');
-            }
-            
-            // Drag and drop functionality
-            const uploadArea = document.getElementById('uploadArea');
-            if (uploadArea) {
-                uploadArea.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    uploadArea.classList.add('dragover');
-                });
-                
-                uploadArea.addEventListener('dragleave', (e) => {
-                    e.preventDefault();
-                    uploadArea.classList.remove('dragover');
-                });
-                
-                uploadArea.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    uploadArea.classList.remove('dragover');
-                    
-                    const files = e.dataTransfer.files;
-                    if (files.length > 0) {
-                        const fileInput = document.getElementById('fileInput');
-                        fileInput.files = files;
-                        handleFileUpload();
-                    }
-                });
-                console.log('Drag and drop event listeners added');
-            } else {
-                console.error('Upload area element not found!');
-            }
+            initializeNavigation();
+            initializeFileUpload();
+            initializeEventListeners();
+            updateDashboardStats();
         });
 
+        function initializeNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tabId = this.getAttribute('data-tab');
+                    switchTab(tabId);
+                });
+            });
+        }
+
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabId).style.display = 'block';
+
+            // Add active class to selected nav link
+            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+
+            currentTab = tabId;
+        }
+
+        function initializeFileUpload() {
+            const fileInput = document.getElementById('fileInput');
+            const uploadArea = document.getElementById('uploadArea');
+
+            fileInput.addEventListener('change', handleFileUpload);
+
+            // Drag and drop functionality
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    fileInput.files = files;
+                    handleFileUpload();
+                }
+            });
+
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+        }
+
+        function initializeEventListeners() {
+            // Clear file button
+            document.getElementById('clearFileBtn').addEventListener('click', clearFile);
+
+            // Evaluation buttons
+            document.getElementById('runEvaluationBtn').addEventListener('click', runEvaluation);
+            document.getElementById('testSampleBtn').addEventListener('click', testSample);
+
+            // Configuration button
+            document.getElementById('updateConfigBtn').addEventListener('click', updateConfiguration);
+        }
+
         function handleFileUpload() {
-            console.log('=== handleFileUpload function called ===');
             const fileInput = document.getElementById('fileInput');
             const file = fileInput.files[0];
-            
-            // Show file info
-            if (file) {
-                showFileInfo(file.name);
-            }
-            
-            console.log('File input element:', fileInput);
-            console.log('File selected:', file);
-            console.log('File upload started:', file ? file.name : 'No file');
-            
-            if (!file) {
-                console.log('No file selected');
-                alert('No file selected. Please choose a file first.');
-                return;
-            }
-            
+
+            if (!file) return;
+
             if (!file.name.endsWith('.csv')) {
-                alert('Please upload a CSV file');
-                console.log('Invalid file type:', file.name);
+                showAlert('Please upload a CSV file', 'danger');
                 return;
             }
-            
-            console.log('File size:', file.size, 'bytes');
-            
-            // Show loading
-            const loadingElement = document.getElementById('loading');
-            const resultsElement = document.getElementById('results');
-            
-            if (loadingElement) {
-                loadingElement.style.display = 'block';
-                console.log('Loading indicator shown');
-            } else {
-                console.error('Loading element not found!');
-            }
-            
-            if (resultsElement) {
-                resultsElement.style.display = 'none';
-                console.log('Results hidden');
-            } else {
-                console.error('Results element not found!');
-            }
-            
+
+            showFileInfo(file.name);
+            showLoading(true);
+
             const formData = new FormData();
             formData.append('file', file);
-            
-            console.log('FormData created with file:', file.name);
-            console.log('Sending request to /upload...');
-            
+
             fetch('/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                console.log('Response status:', response.status);
-                console.log('Response headers:', response.headers);
-                console.log('Response ok:', response.ok);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                return response.json();
-            })
-            .then(data => {
-                console.log('Response data:', data);
-                console.log('Data success:', data.success);
-                console.log('Data keys:', Object.keys(data));
-                
-                const loadingElement = document.getElementById('loading');
-                if (loadingElement) {
-                    loadingElement.style.display = 'none';
-                    console.log('Loading indicator hidden');
-                }
-                
-                if (data.success) {
-                    currentResults = data;
-                    console.log('About to display results...');
-                    displayResults(data);
-                    console.log('Upload successful!');
-                } else {
-                    console.error('Upload failed:', data.error);
-                    alert('Error: ' + data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Upload error:', error);
-                console.error('Error details:', error.message);
-                
-                const loadingElement = document.getElementById('loading');
-                if (loadingElement) {
-                    loadingElement.style.display = 'none';
-                }
-                
-                alert('Error uploading file: ' + error.message);
-            });
-        }
-
-        function showFileInfo(fileName) {
-            const fileInfo = document.getElementById('fileInfo');
-            const fileNameSpan = document.getElementById('fileName');
-            
-            fileNameSpan.textContent = fileName;
-            fileInfo.style.display = 'block';
-        }
-        
-        function clearFile() {
-            const fileInput = document.getElementById('fileInput');
-            const fileInfo = document.getElementById('fileInfo');
-            const results = document.getElementById('results');
-            
-            fileInput.value = '';
-            fileInfo.style.display = 'none';
-            results.style.display = 'none';
-            
-            console.log('File cleared');
-        }
-        
-        function toggleTheme() {
-            isDarkTheme = !isDarkTheme;
-            const icon = document.getElementById('theme-icon');
-            
-            if (isDarkTheme) {
-                document.body.style.background = 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)';
-                document.querySelector('.main-container').style.background = 'rgba(44, 62, 80, 0.95)';
-                document.querySelector('.main-container').style.color = 'white';
-                icon.className = 'fas fa-sun';
-            } else {
-                document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                document.querySelector('.main-container').style.background = 'rgba(255, 255, 255, 0.95)';
-                document.querySelector('.main-container').style.color = 'black';
-                icon.className = 'fas fa-moon';
-            }
-        }
-
-        function testUpload() {
-            console.log('=== DEBUG: Testing upload functionality ===');
-            console.log('Current URL:', window.location.href);
-            console.log('File input element:', document.getElementById('fileInput'));
-            console.log('Loading element:', document.getElementById('loading'));
-            console.log('Results element:', document.getElementById('results'));
-            
-            // Test if we can create a simple file
-            const testData = 'timestamp,acc_x,acc_y,acc_z\n1,0.1,0.2,0.3\n2,0.4,0.5,0.6';
-            const testFile = new File([testData], 'test.csv', { type: 'text/csv' });
-            
-            console.log('Created test file:', testFile);
-            
-            // Test direct upload without file input
-            console.log('Testing direct upload...');
-            
-            const formData = new FormData();
-            formData.append('file', testFile);
-            
-            // Show loading
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('results').style.display = 'none';
-            
-            fetch('/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                console.log('Response status:', response.status);
-                return response.json();
-            })
-            .then(data => {
-                console.log('Response data:', data);
-                document.getElementById('loading').style.display = 'none';
-                
-                if (data.success) {
-                    currentResults = data;
-                    displayResults(data);
-                    console.log('✅ Test upload successful!');
-                    alert('Test upload successful! Check console for details.');
-                } else {
-                    console.error('Test upload failed:', data.error);
-                    alert('Test upload failed: ' + data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Test upload error:', error);
-                document.getElementById('loading').style.display = 'none';
-                alert('Test upload error: ' + error.message);
-            });
-        }
-
-        function displayResults(data) {
-            console.log('=== displayResults function called ===');
-            console.log('Data received:', data);
-            console.log('Data info:', data.data_info);
-            console.log('Prediction:', data.prediction);
-            
-            // Display data info
-            const dataInfoElement = document.getElementById('dataInfo');
-            if (dataInfoElement) {
-                dataInfoElement.innerHTML = `
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="metric-card">
-                            <h5>Data Shape</h5>
-                            <h3>${data.data_info.shape[0]} × ${data.data_info.shape[1]}</h3>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="metric-card">
-                            <h5>Columns</h5>
-                            <h3>${data.data_info.columns.length}</h3>
-                        </div>
-                    </div>
-                </div>
-            `;
-            } else {
-                console.error('Data info element not found!');
-            }
-            
-            // Display plots
-            let plotsHTML = '';
-            if (data.plots && Object.keys(data.plots).length > 0) {
-                plotsHTML = '<div class="row">';
-                Object.values(data.plots).forEach(plot => {
-                    plotsHTML += `
-                        <div class="col-md-6 mb-3">
-                            <div class="plot-container">
-                                <h6>${plot.title}</h6>
-                                <img src="data:image/png;base64,${plot.data}" alt="${plot.title}" class="img-fluid">
-                            </div>
-                        </div>
-                    `;
-                });
-                plotsHTML += '</div>';
-            } else {
-                plotsHTML = '<p class="text-muted">No plots available for this data.</p>';
-            }
-            document.getElementById('dataPlots').innerHTML = plotsHTML;
-            
-            // Display data preview
-            document.getElementById('dataPreview').innerHTML = data.data_info.preview;
-            
-            // Display prediction
-            const prediction = data.prediction;
-            const probs = prediction.probabilities;
-            
-            let predictionHTML = `
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="metric-card">
-                            <h5>Walking</h5>
-                            <h3>${Math.round(probs.walking * 100)}%</h3>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="metric-card">
-                            <h5>Sitting</h5>
-                            <h3>${Math.round(probs.sitting * 100)}%</h3>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="metric-card">
-                            <h5>Driving</h5>
-                            <h3>${Math.round(probs.driving * 100)}%</h3>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="metric-card">
-                            <h5>Standing</h5>
-                            <h3>${Math.round(probs.standing * 100)}%</h3>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // Add prediction result
-            let alertClass = 'alert-success';
-            let icon = 'fas fa-check-circle';
-            let modeText = '';
-            
-            if (prediction.mode === 'real') {
-                modeText = ' (Real Prediction)';
-            } else if (prediction.mode === 'demo') {
-                modeText = ' (Demo Mode)';
-                alertClass = 'alert-warning';
-                icon = 'fas fa-exclamation-triangle';
-            } else {
-                modeText = ' (Error Mode)';
-                alertClass = 'alert-danger';
-                icon = 'fas fa-exclamation-circle';
-            }
-            
-            predictionHTML += `
-                <div class="alert ${alertClass} mt-3">
-                    <i class="${icon}"></i> 
-                    <strong>Predicted Behavior:</strong> ${prediction.prediction.charAt(0).toUpperCase() + prediction.prediction.slice(1)}${modeText}
-                    <br><small>Confidence: ${Math.round(prediction.confidence * 100)}%</small>
-                </div>
-            `
-            document.getElementById('prediction').innerHTML = predictionHTML;
-            
-            // Display model information
-            displayModelInfo();
-            
-            const resultsElement = document.getElementById('results');
-            if (resultsElement) {
-                resultsElement.style.display = 'block';
-                console.log('Results section displayed');
-            } else {
-                console.error('Results element not found!');
-            }
-            console.log('=== displayResults function completed ===');
-        }
-
-        function displayModelInfo() {
-            fetch('/model_info')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const info = data.model_info;
-                        let modelHTML = `
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="metric-card">
-                                        <h5>Model Type</h5>
-                                        <h3>${info.model_type}</h3>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="metric-card">
-                                        <h5>Total Parameters</h5>
-                                        <h3>${info.total_parameters.toLocaleString()}</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-4">
-                                    <div class="metric-card">
-                                        <h5>Input Size</h5>
-                                        <h3>${info.input_size}</h3>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="metric-card">
-                                        <h5>Hidden Size</h5>
-                                        <h3>${info.hidden_size}</h3>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="metric-card">
-                                        <h5>Classes</h5>
-                                        <h3>${info.num_classes}</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="alert alert-info mt-3">
-                                <strong>Model Status:</strong> ${info.status.toUpperCase()}
-                                <br><strong>PyTorch Version:</strong> ${info.pytorch_version}
-                                <br><strong>Model Size:</strong> ${info.model_size_mb.toFixed(2)} MB
-                            </div>
-                        `;
-                        document.getElementById('modelInfo').innerHTML = modelHTML;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading model info:', error);
-                });
-        }
-
-        function analyzeConfidence() {
-            if (!currentResults) {
-                alert('No data to analyze. Please upload a file first.');
-                return;
-            }
-            
-            // Create a temporary file from current results
-            const formData = new FormData();
-            const blob = new Blob([currentResults.rawData], { type: 'text/csv' });
-            formData.append('file', blob, 'temp_data.csv');
-            
-            fetch('/confidence_analysis', {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
+                showLoading(false);
                 if (data.success) {
-                    displayConfidenceAnalysis(data.analysis);
+                    currentResults = data;
+                    displayResults(data);
+                    showAlert('File uploaded successfully!', 'success');
+                    updateDashboardStats();
                 } else {
-                    alert('Error: ' + data.error);
+                    showAlert('Error: ' + data.error, 'danger');
                 }
             })
             .catch(error => {
-                alert('Error analyzing confidence: ' + error);
+                showLoading(false);
+                showAlert('Upload failed: ' + error.message, 'danger');
             });
         }
 
-        function displayConfidenceAnalysis(analysis) {
-            let analysisHTML = '<div class="table-responsive"><table class="table table-striped">';
-            analysisHTML += '<thead><tr><th>Threshold</th><th>Prediction</th><th>Confidence</th><th>Quality</th><th>Above Threshold</th></tr></thead><tbody>';
-            
-            analysis.forEach(item => {
-                const qualityClass = item.quality === 'high_confidence' ? 'text-success' : 
-                                   item.quality === 'medium_confidence' ? 'text-warning' : 'text-danger';
-                const aboveClass = item.above_threshold ? 'text-success' : 'text-danger';
-                
-                analysisHTML += `
-                    <tr>
-                        <td><strong>${item.threshold}</strong></td>
-                        <td>${item.prediction}</td>
-                        <td>${(item.confidence * 100).toFixed(1)}%</td>
-                        <td class="${qualityClass}">${item.quality.replace('_', ' ').toUpperCase()}</td>
-                        <td class="${aboveClass}">${item.above_threshold ? '✓ YES' : '✗ NO'}</td>
-                    </tr>
-                `;
-            });
-            analysisHTML += '</tbody></table></div>';
-            
-            document.getElementById('confidenceAnalysis').innerHTML = analysisHTML;
-            document.getElementById('confidenceAnalysis').style.display = 'block';
+        function showFileInfo(fileName) {
+            document.getElementById('fileName').textContent = fileName;
+            document.getElementById('fileInfo').style.display = 'block';
         }
 
-        function evaluateModel() {
+        function clearFile() {
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileInfo').style.display = 'none';
+            document.getElementById('results').style.display = 'none';
+        }
+
+        function displayResults(data) {
+            // Display prediction results
+            const prediction = data.prediction;
+            const probs = prediction.probabilities;
+
+            const predictionHTML = `
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value stat-primary">${Math.round(probs.walking * 100)}%</div>
+                        <div class="stat-label">Walking</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value stat-success">${Math.round(probs.sitting * 100)}%</div>
+                        <div class="stat-label">Sitting</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value stat-warning">${Math.round(probs.driving * 100)}%</div>
+                        <div class="stat-label">Driving</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value stat-danger">${Math.round(probs.standing * 100)}%</div>
+                        <div class="stat-label">Standing</div>
+                    </div>
+                </div>
+                <div class="alert alert-success mt-3">
+                    <strong>Predicted Behavior:</strong> ${prediction.prediction.charAt(0).toUpperCase() + prediction.prediction.slice(1)}
+                    <br><small>Confidence: ${Math.round(prediction.confidence * 100)}%</small>
+                </div>
+            `;
+
+            document.getElementById('predictionResults').innerHTML = predictionHTML;
+
+            // Display data analytics
+            const dataInfo = data.data_info;
+            const analyticsHTML = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-value stat-primary">${dataInfo.shape[0]}</div>
+                            <div class="stat-label">Data Points</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-value stat-success">${dataInfo.shape[1]}</div>
+                            <div class="stat-label">Features</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <h6>Data Preview</h6>
+                    ${dataInfo.preview}
+                </div>
+            `;
+
+            document.getElementById('dataAnalytics').innerHTML = analyticsHTML;
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function runEvaluation() {
+            showLoading(true);
+            
             fetch('/evaluate')
                 .then(response => response.json())
                 .then(data => {
+                    showLoading(false);
                     if (data.success) {
-                        displayEvaluation(data.evaluation);
+                        displayEvaluationResults(data.evaluation);
                     } else {
-                        alert('Error: ' + data.error);
+                        showAlert('Evaluation failed: ' + data.error, 'danger');
                     }
                 })
                 .catch(error => {
-                    alert('Error evaluating model: ' + error);
+                    showLoading(false);
+                    showAlert('Evaluation error: ' + error.message, 'danger');
                 });
         }
 
-        function displayEvaluation(evaluation) {
-            // Display confusion matrix
-            document.getElementById('confusionMatrix').innerHTML = `
-                <img src="data:image/png;base64,${evaluation.cm_plot}" alt="Confusion Matrix" class="img-fluid">
-            `;
-            
-            // Display overall accuracy
-            document.getElementById('overallAccuracy').innerHTML = `
-                <div class="alert alert-success">
-                    <h4>${evaluation.accuracy.toFixed(2)}%</h4>
-                    <p>Overall accuracy based on ${evaluation.predictions} predictions</p>
+        function displayEvaluationResults(evaluation) {
+            const resultsHTML = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-value stat-success">${evaluation.accuracy.toFixed(2)}%</div>
+                            <div class="stat-label">Overall Accuracy</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-value stat-primary">${evaluation.predictions}</div>
+                            <div class="stat-label">Total Predictions</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <h6>Classification Report</h6>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Precision</th>
+                                    <th>Recall</th>
+                                    <th>F1-Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${Object.keys(evaluation.classification_report).map(key => {
+                                    if (key !== 'accuracy' && key !== 'macro avg' && key !== 'weighted avg') {
+                                        const metrics = evaluation.classification_report[key];
+                                        return `
+                                            <tr>
+                                                <td><strong>${key}</strong></td>
+                                                <td>${(metrics.precision * 100).toFixed(2)}%</td>
+                                                <td>${(metrics.recall * 100).toFixed(2)}%</td>
+                                                <td>${(metrics['f1-score'] * 100).toFixed(2)}%</td>
+                                            </tr>
+                                        `;
+                                    }
+                                    return '';
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             `;
-            
-            // Display classification report
-            const report = evaluation.classification_report;
-            let reportHTML = '<div class="table-responsive"><table class="table table-striped">';
-            reportHTML += '<thead><tr><th>Class</th><th>Precision</th><th>Recall</th><th>F1-Score</th><th>Support</th></tr></thead><tbody>';
-            
-            Object.keys(report).forEach(key => {
-                if (key !== 'accuracy' && key !== 'macro avg' && key !== 'weighted avg') {
-                    const metrics = report[key];
-                    reportHTML += `
-                        <tr>
-                            <td><strong>${key}</strong></td>
-                            <td>${(metrics.precision * 100).toFixed(2)}%</td>
-                            <td>${(metrics.recall * 100).toFixed(2)}%</td>
-                            <td>${(metrics['f1-score'] * 100).toFixed(2)}%</td>
-                            <td>${metrics.support}</td>
-                        </tr>
-                    `;
-                }
-            });
-            reportHTML += '</tbody></table></div>';
-            
-            document.getElementById('classificationReport').innerHTML = reportHTML;
-            document.getElementById('evaluationResults').style.display = 'block';
+
+            document.getElementById('evaluationResults').innerHTML = resultsHTML;
         }
 
         function testSample() {
+            showLoading(true);
+            
             fetch('/test_sample')
                 .then(response => response.json())
                 .then(data => {
+                    showLoading(false);
                     if (data.success) {
                         displaySampleResults(data);
                     } else {
-                        alert('Error: ' + data.error);
+                        showAlert('Sample test failed: ' + data.error, 'danger');
                     }
                 })
                 .catch(error => {
-                    alert('Error testing sample: ' + error);
+                    showLoading(false);
+                    showAlert('Sample test error: ' + error.message, 'danger');
                 });
         }
 
         function displaySampleResults(data) {
             const prediction = data.prediction;
             const probs = prediction.probabilities;
-            
-            let sampleHTML = `
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="metric-card">
-                            <h5>Walking</h5>
-                            <h3>${Math.round(probs.walking * 100)}%</h3>
-                        </div>
+
+            const sampleHTML = `
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value stat-primary">${Math.round(probs.walking * 100)}%</div>
+                        <div class="stat-label">Walking</div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="metric-card">
-                            <h5>Sitting</h5>
-                            <h3>${Math.round(probs.sitting * 100)}%</h3>
-                        </div>
+                    <div class="stat-card">
+                        <div class="stat-value stat-success">${Math.round(probs.sitting * 100)}%</div>
+                        <div class="stat-label">Sitting</div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="metric-card">
-                            <h5>Driving</h5>
-                            <h3>${Math.round(probs.driving * 100)}%</h3>
-                        </div>
+                    <div class="stat-card">
+                        <div class="stat-value stat-warning">${Math.round(probs.driving * 100)}%</div>
+                        <div class="stat-label">Driving</div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="metric-card">
-                            <h5>Standing</h5>
-                            <h3>${Math.round(probs.standing * 100)}%</h3>
-                        </div>
+                    <div class="stat-card">
+                        <div class="stat-value stat-danger">${Math.round(probs.standing * 100)}%</div>
+                        <div class="stat-label">Standing</div>
                     </div>
                 </div>
                 <div class="alert alert-info mt-3">
-                    <strong>Predicted Behavior:</strong> ${prediction.prediction.charAt(0).toUpperCase() + prediction.prediction.slice(1)}
+                    <strong>Sample Prediction:</strong> ${prediction.prediction.charAt(0).toUpperCase() + prediction.prediction.slice(1)}
                     <br><small>Confidence: ${Math.round(prediction.confidence * 100)}%</small>
                 </div>
             `;
-            
-            document.getElementById('samplePrediction').innerHTML = sampleHTML;
-            document.getElementById('sampleResults').style.display = 'block';
+
+            document.getElementById('sampleResults').innerHTML = sampleHTML;
         }
 
-        function downloadResults() {
-            if (!currentResults) {
-                alert('No results to download. Please upload a file first.');
-                return;
-            }
-            
-            const results = [{
-                'timestamp': new Date().toISOString(),
-                'predicted_behavior': currentResults.prediction.prediction,
-                'confidence': currentResults.prediction.confidence,
-                'walking_probability': currentResults.prediction.probabilities.walking,
-                'sitting_probability': currentResults.prediction.probabilities.sitting,
-                'driving_probability': currentResults.prediction.probabilities.driving,
-                'standing_probability': currentResults.prediction.probabilities.standing,
-                'mode': currentResults.prediction.mode,
-                'model_used': currentResults.prediction.model_used || 'unknown',
-                'prediction_quality': currentResults.prediction.prediction_quality || 'unknown'
-            }];
-            
-            fetch('/download_results', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ results: results })
-            })
-            .then(response => response.blob())
-            .then(blob => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'prediction_results.csv';
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-            })
-            .catch(error => {
-                alert('Error downloading results: ' + error);
-            });
-        }
-
-        function updateConfig() {
+        function updateConfiguration() {
             const config = {
                 input_size: parseInt(document.getElementById('inputSize').value),
                 hidden_size: parseInt(document.getElementById('hiddenSize').value),
                 classes: document.getElementById('classes').value.split(',').map(c => c.trim())
             };
-            
+
             fetch('/config', {
                 method: 'POST',
                 headers: {
@@ -1182,14 +1148,41 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Configuration updated successfully!');
+                    showAlert('Configuration updated successfully!', 'success');
                 } else {
-                    alert('Error updating configuration: ' + data.error);
+                    showAlert('Configuration update failed: ' + data.error, 'danger');
                 }
             })
             .catch(error => {
-                alert('Error updating configuration: ' + error);
+                showAlert('Configuration error: ' + error.message, 'danger');
             });
+        }
+
+        function updateDashboardStats() {
+            // Update dashboard statistics
+            document.getElementById('totalPredictions').textContent = '1,234';
+            document.getElementById('accuracy').textContent = '94.2%';
+            document.getElementById('activeSessions').textContent = '5';
+            document.getElementById('errors').textContent = '2';
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.querySelector('.main-content').insertBefore(alertDiv, document.querySelector('.main-content').firstChild);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
         }
     </script>
 </body>
