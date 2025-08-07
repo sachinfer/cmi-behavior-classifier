@@ -3,7 +3,7 @@ title: SenseBehavior
 emoji: 🚀
 colorFrom: purple
 colorTo: indigo
-sdk: docker
+sdk: gradio
 pinned: false
 license: other
 ---
@@ -153,11 +153,18 @@ python app.py
 # Access at http://localhost:7860
 ```
 
-### Docker Deployment
+### Alternative: Run with Python directly
 ```bash
-# Build and run with Docker
-docker build -t sensebehavior .
-docker run -p 7860:7860 sensebehavior
+# Make sure you have Python 3.11+ installed
+python --version
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the Flask application
+python app.py
+
+# The application will be available at http://localhost:7860
 ```
 
 ## 🎨 Interface Features
