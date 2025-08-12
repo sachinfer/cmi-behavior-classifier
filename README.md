@@ -10,7 +10,7 @@ license: other
 
 # 📊 Behavior Analytics Dashboard
 
-A professional Flask-based web application that uses LSTM neural networks to classify human behavior patterns from sensor data. Features a classic dashboard interface with comprehensive analytics and real-time monitoring capabilities.
+A professional Streamlit-based web application that uses LSTM neural networks to classify human behavior patterns from sensor data. Features a modern dashboard interface with comprehensive analytics and real-time monitoring capabilities.
 
 ## ✨ Current Features
 
@@ -102,25 +102,23 @@ Your CSV file should contain:
 
 ## 🛠️ Technical Architecture
 
-- **Frontend**: HTML5, CSS3, JavaScript with Bootstrap 5.3
-- **Backend**: Flask web framework with RESTful API
-- **ML Model**: LSTM (Long Short-Term Memory) neural network
-- **Visualization**: Matplotlib and Seaborn for interactive plots
-- **Data Processing**: Pandas and NumPy for data manipulation
-- **Evaluation**: Scikit-learn for metrics and analysis
-- **Design**: Modern CSS Grid and Flexbox for responsive layout
+- **Frontend**: Streamlit web framework with modern UI components
+- **Backend**: Modular Python architecture with dedicated processing layers
+- **Data Processing**: Advanced preprocessing with validation and quality analysis
+- **ML Models**: Multiple algorithm support (Random Forest, Neural Network, SVM)
+- **Visualization**: Professional charts with Matplotlib, Seaborn, and Plotly
+- **Analytics**: Comprehensive statistical analysis and feature engineering
+- **Design**: Responsive Streamlit components with custom CSS styling
 
-## 🔧 API Endpoints
+## 🔧 Application Features
 
-- `GET /` - Main dashboard interface
-- `POST /upload` - Upload and process CSV files
-- `GET /model_info` - Get model information
-- `GET /evaluate` - Evaluate model performance
-- `POST /test_sample` - Test model on random sample
-- `POST /confidence_analysis` - Analyze confidence thresholds
-- `POST /download_results` - Download prediction results
-- `GET/POST /config` - Get/update model configuration
-- `GET /health` - Health check endpoint
+- **Dashboard Overview** - Real-time statistics and system monitoring
+- **Data Upload** - Advanced CSV processing with quality validation
+- **Data Analytics** - Comprehensive analysis with outlier detection
+- **Model Evaluation** - Multi-algorithm training and evaluation
+- **Settings** - Model configuration and system preferences
+- **Real-time Processing** - Instant data analysis and predictions
+- **Backend Integration** - Modular architecture for scalability
 
 ## 🎓 Academic Project
 
@@ -129,13 +127,14 @@ This project was developed for **CIS6005 — Computational Intelligence Project 
 ## 📋 System Requirements
 
 - **Python**: 3.11 or higher
-- **Flask**: 2.3.3
+- **Streamlit**: 1.28.0
 - **PyTorch**: 2.0.1 (optional - demo mode available)
 - **Pandas**: 2.0.3
 - **Scikit-learn**: 1.3.0
 - **NumPy**: 1.24.3
 - **Matplotlib**: 3.7.2
 - **Seaborn**: 0.12.2
+- **Plotly**: 5.17.0
 
 ## 🚀 Quick Start
 
@@ -148,10 +147,10 @@ cd SenseBehavior
 # Install dependencies
 pip install -r requirements.txt
 
-# Run the application
-python app.py
+# Run the Streamlit application
+streamlit run app_streamlit.py
 
-# Access at http://localhost:7860
+# Access at http://localhost:8501
 ```
 
 ### Alternative: Run with Python directly
@@ -162,10 +161,18 @@ python --version
 # Install dependencies
 pip install -r requirements.txt
 
-# Run the Flask application
-python app.py
+# Run the Streamlit application
+python -m streamlit run app_streamlit.py
 
-# The application will be available at http://localhost:7860
+# The application will be available at http://localhost:8501
+```
+
+### Using the Run Script
+```bash
+# Use the provided run script
+python run_streamlit.py
+
+# The application will be available at http://localhost:8501
 ```
 
 ## 🎨 Dashboard Features
